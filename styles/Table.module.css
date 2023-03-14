@@ -1,0 +1,88 @@
+.table {
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+
+.th {
+  background-color: #f2f2f2;
+  border: 1px solid black;
+  padding: 10px;
+  font-weight: bold;
+  width: 80px;
+}
+
+.th:first-child {
+  width: 20px;
+}
+
+.th:nth-child(2) {
+  width: 150px;
+}
+
+.th:nth-child(5) {
+  width: 200px;
+}
+
+.th:nth-child(7) {
+  width: 400px;
+}
+
+.td {
+  border: 1px solid rgb(0, 0, 0);
+  padding: 10px;
+  text-align: center;
+}
+
+.dimensionTable {
+  padding: 1px;
+  width: 100%;
+}
+
+.dimensionTableTheadTh {
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.353);
+  padding: 5px;
+  width: 33%;
+}
+
+.dimensionTableTheadTh:first-child {
+  text-align: left;
+}
+
+.dimensionTableTheadTh:last-child {
+  text-align: right;
+}
+
+.dimensionTableTd {
+  border-bottom: none;
+  border-bottom: 0.2px solid black;
+  padding: 2px;
+}
+
+.dimensionTableTd:first-child {
+  text-align: left;
+}
+
+.dimensionTableTd:last-child {
+  text-align: right;
+}
+
+.dimensionNameStyle {
+  font-weight: 'bold';
+}
+
+.form {
+  margin-top: 80px;
+  width: 50%;
+}
+
+.formInputLabel {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}

@@ -6,13 +6,26 @@ interface Props {
     name: string;
     placeholder: string;
     type: string;
-    value: string;
+    value: string | number;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   };
+  isRequired?: boolean;
 }
 
-const FormInput = ({ inputOptions }: Props) => {
-  return <input {...inputOptions} className={styles.input} />;
+const FormInput = ({ inputOptions, isRequired = false }: Props) => {
+  const { name, placeholder, type, value, onChange } = inputOptions;
+
+  return (
+    <input
+      className={styles.input}
+      name={name}
+      placeholder={placeholder}
+      type={type}
+      value={value}
+      onChange={onChange}
+      required={isRequired}
+    />
+  );
 };
 
 export default FormInput;

@@ -1,15 +1,9 @@
 import { PostgrestError } from '@supabase/supabase-js';
 
 export type ProductDimension = {
-  [key in
-    | 'chest'
-    | 'waist'
-    | 'pelvis'
-    | 'hips'
-    | 'arm_length'
-    | 'shoulder_length']: {
+  [key in string]: {
     delta: number;
-    dimensions: number[];
+    dimensions: string[];
   };
 };
 
@@ -22,6 +16,13 @@ type Specifications = {
 
 export type Product = {
   id: number;
+  organization: string;
+  name: string;
+  specifications: Specifications;
+};
+
+export type NewProduct = {
+  id?: number;
   organization: string;
   name: string;
   specifications: Specifications;

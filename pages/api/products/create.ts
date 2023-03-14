@@ -11,18 +11,14 @@ export default async function getProducts(
   // Getting the table name from the environment variables. This is simply your first name
   const table = process.env.FIRST_NAME!;
 
-  const {
-    query: { id },
-    body,
-    method,
-  } = req;
+  const { body, method } = req;
 
-  if (method === 'PUT') {
-    const { id, organization, name, specifications } = body;
+  if (method === 'POST') {
+    const { organization, name, specifications } = body;
+
     const { data, error } = await supabase
       .from(table)
-      .update({ organization, name, specifications })
-      .eq('id', id)
+      .insert({ organization, name, specifications })
       .select();
 
     if (error && !data) {

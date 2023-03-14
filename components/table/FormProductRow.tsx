@@ -1,17 +1,17 @@
-import { ChangeEvent, SelectHTMLAttributes, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
-import api from '../../utils/axios';
-import styles from '../../styles/Home.module.css';
 import { Product } from '../../types/products.types';
+import api from '../../utils/axios';
 import Button from '../Button';
-import ProductDimensionsTable from './ProductDimensionTable';
+import FormProductDimensionsTable from './FormProductDimensionsTable';
 import FormInput from '../FormInput';
 import FormInputSelect from '../FormInputSelect';
 import FormInputArray from '../FormInputArray';
+import styles from '../../styles/Home.module.css';
 
 interface Props {
   product: Product;
-  setEditId: (id: null) => void;
+  setEditId: (id: number | null) => void;
 }
 
 const FormProductRow = ({ product, setEditId }: Props) => {
@@ -21,24 +21,36 @@ const FormProductRow = ({ product, setEditId }: Props) => {
   });
 
   const { id, organization, name, specifications } = formData;
+  const { product_dimensions } = specifications;
 
-  const handleSubmit = async (data: Product) => {
-    const response = await api.put(`api/products/${id}`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+  const handleSubmit = useCallback(
+    async (data: Product) => {
+      try {
+        const response = await api.put(`api/products/${id}`, data, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-    if (!response) throw new Error('update failed');
+        if (!response) {
+          throw new Error('update failed');
+        }
 
-    router.replace(router.asPath);
-    setEditId(null);
-    return alert('update success');
-  };
+        router.replace(router.asPath);
+        setEditId(null);
+        alert('update success');
+      } catch (error) {
+        console.error(error);
+        alert('update failed');
+      }
+    },
+    [router, setEditId, id]
+  );
 
   return (
     <tr key={id}>
       <td className={styles.td}>{id}</td>
+
       <td className={styles.td}>
         <FormInput
           inputOptions={{
@@ -47,10 +59,14 @@ const FormProductRow = ({ product, setEditId }: Props) => {
             type: 'text',
             value: organization,
             onChange: (e: ChangeEvent<HTMLInputElement>) =>
-              setFormData({ ...formData, organization: e.target.value }),
+              setFormData({
+                ...formData,
+                organization: e.target.value.toLowerCase(),
+              }),
           }}
         />
       </td>
+
       <td className={styles.td}>
         <FormInput
           inputOptions={{
@@ -58,11 +74,13 @@ const FormProductRow = ({ product, setEditId }: Props) => {
             placeholder: 'name',
             type: 'text',
             value: name,
+
             onChange: (e: ChangeEvent<HTMLInputElement>) =>
-              setFormData({ ...formData, name: e.target.value }),
+              setFormData({ ...formData, name: e.target.value.toLowerCase() }),
           }}
         />
       </td>
+
       <td className={styles.td}>
         <FormInputSelect
           inputOptions={{
@@ -90,6 +108,7 @@ const FormProductRow = ({ product, setEditId }: Props) => {
             placeholder: 'sizes',
             type: 'string',
             value: specifications.sizes.join(','),
+
             onChange: (e: string[]) => {
               setFormData({
                 ...formData,
@@ -102,6 +121,7 @@ const FormProductRow = ({ product, setEditId }: Props) => {
           }}
         />
       </td>
+
       <td className={styles.td}>
         <FormInputSelect
           inputOptions={{
@@ -121,11 +141,14 @@ const FormProductRow = ({ product, setEditId }: Props) => {
           }}
         />
       </td>
+
       <td className={styles.td}>
-        <ProductDimensionsTable
-          dimensions={specifications.product_dimensions}
+        <FormProductDimensionsTable
+          dimensions={product_dimensions}
+          setFormData={setFormData}
         />
       </td>
+
       <td className={styles.td}>
         <div className={styles.buttons}>
           <Button action={() => handleSubmit(formData)} styleName="success">

@@ -1,5 +1,5 @@
-import styles from '../../styles/Home.module.css';
 import { ProductDimension } from '../../types/products.types';
+import styles from '../../styles/Home.module.css';
 
 interface Props {
   dimensions: ProductDimension;
@@ -21,9 +21,11 @@ const ProductDimensionsTable = ({ dimensions }: Props) => {
             <td className={(styles.td, styles.dimensionTableTd)}>
               {dimensionName}
             </td>
+
             <td className={(styles.td, styles.dimensionTableTd)}>
               {dimension.delta}
             </td>
+
             <td className={(styles.td, styles.dimensionTableTd)}>
               {dimension.dimensions.map((size, index) => (
                 <span key={index}>

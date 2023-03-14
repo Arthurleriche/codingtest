@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Product } from '../../types/products.types';
-import styles from '../../styles/Home.module.css';
 import TableHeaderRow from './TableHeaderRow';
 import FormProductRow from './FormProductRow';
 import ProductRow from './ProductRow';
+import styles from '../../styles/Home.module.css';
 
 interface Props {
   products: Product[] | undefined;
@@ -12,13 +12,10 @@ interface Props {
 const Table = ({ products }: Props) => {
   const [editId, setEditId] = useState<number | null>(null);
   const [search, setSearch] = useState<string>('');
-  const [sortProduct, setSortProduct] = useState<Product[] | undefined>(
-    undefined
-  );
 
-  useEffect(() => {
+  const sortedProducts = useMemo(() => {
     if (search) {
-      const productFilter = products?.filter((product) => {
+      return products?.filter((product) => {
         if (
           product.organization.includes(search.toLocaleLowerCase()) ||
           product.name.includes(search.toLocaleLowerCase()) ||
@@ -28,36 +25,38 @@ const Table = ({ products }: Props) => {
           return true;
         }
       });
-
-      return setSortProduct(productFilter);
     }
 
-    setSortProduct(
-      products?.sort((b: Product, a: Product) =>
-        b.organization.localeCompare(a.organization)
-      )
+    return products?.sort((b: Product, a: Product) =>
+      b.organization.localeCompare(a.organization)
     );
   }, [products, search]);
 
-  const displayData = sortProduct?.map((elem) => {
-    return (
-      <React.Fragment key={elem.id}>
-        {editId === elem.id ? (
-          <FormProductRow product={elem} setEditId={setEditId} />
-        ) : (
-          <ProductRow product={elem} setEditId={setEditId} />
-        )}
-      </React.Fragment>
-    );
-  });
+  const setSearchCallback = useCallback((value: string) => {
+    setSearch(value);
+  }, []);
+
+  const setEditIdCallback = useCallback((id: number | null) => {
+    setEditId(id);
+  }, []);
 
   return (
     <>
       <table className={styles.table}>
         <thead>
-          <TableHeaderRow setSearch={setSearch} search={search} />
+          <TableHeaderRow setSearch={setSearchCallback} search={search} />
         </thead>
-        <tbody>{displayData}</tbody>
+        <tbody>
+          {sortedProducts?.map((elem) => (
+            <React.Fragment key={elem.id}>
+              {editId === elem.id ? (
+                <FormProductRow product={elem} setEditId={setEditIdCallback} />
+              ) : (
+                <ProductRow product={elem} setEditId={setEditIdCallback} />
+              )}
+            </React.Fragment>
+          ))}
+        </tbody>
       </table>
     </>
   );

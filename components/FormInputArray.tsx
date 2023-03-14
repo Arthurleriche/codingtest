@@ -8,9 +8,10 @@ interface Props {
     value: string | number;
     onChange: (e: string[]) => void;
   };
+  isRequired?: boolean | undefined;
 }
 
-const FormInputArray = ({ inputOptions }: Props) => {
+const FormInputArray = ({ inputOptions, isRequired }: Props) => {
   const { value, type, placeholder, onChange } = inputOptions;
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.toUpperCase();
@@ -25,6 +26,7 @@ const FormInputArray = ({ inputOptions }: Props) => {
         type={type}
         placeholder={placeholder}
         onChange={handleChange}
+        required={isRequired}
       />
     </>
   );
