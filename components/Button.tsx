@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface Props {
-  action: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  action?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   styleName: 'danger' | 'success' | 'primary';
   children: React.ReactNode;
   otherOption?: object;

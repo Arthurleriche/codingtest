@@ -1,29 +1,3 @@
-// import { ChangeEvent } from 'react';
-// import { Product, ProductDimension } from '../../types/products.types';
-// import Button from '../Button';
-// import FormInput from '../FormInput';
-// import FormInputArray from '../FormInputArray';
-// import styles from '../../styles/Home.module.css';
-
-// interface Props {
-//   dimensions: ProductDimension;
-//   setFormData: (e: any) => void;
-// }
-
-// const ProductDimensionsTable = ({ dimensions, setFormData }: Props) => {
-//   const removeDimension = (key: string) => {
-//     const removeDim = { ...dimensions };
-//     delete removeDim[key];
-//     setFormData((prev: Product) => {
-//       return {
-//         ...prev,
-//         specifications: {
-//           ...prev.specifications,
-//           product_dimensions: removeDim,
-//         },
-//       };
-//     });
-//   };
 import { ChangeEvent, useState, useCallback } from 'react';
 import { Product, ProductDimension } from '../../types/products.types';
 import Button from '../Button';
@@ -165,7 +139,7 @@ const ProductDimensionsTable = ({ dimensions, setFormData }: Props) => {
                         dimensions: e,
                         delta: dimension.delta,
                       };
-                      console.log(product_dimensions);
+
                       return { ...prev, specifications };
                     });
                   },

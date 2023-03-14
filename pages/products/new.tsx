@@ -199,7 +199,6 @@ const New = () => {
           <Button
             styleName="success"
             otherOption={{ type: 'submit', className: styles.fatButton }}
-            action={() => console.log(formData)}
           >
             Create
           </Button>
