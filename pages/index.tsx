@@ -52,7 +52,7 @@ const Home = ({ results }: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const res = await api.get('http://localhost:3000/api/products');
+  const res = await api.get('api/products');
   const results = res.data;
 
   return {
