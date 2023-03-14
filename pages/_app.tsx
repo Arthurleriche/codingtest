@@ -1,16 +1,18 @@
-import '../styles/globals.css';
-
 import { useState } from 'react';
+import type { AppProps } from 'next/app';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider, Session } from '@supabase/auth-helpers-react';
-import type { AppProps } from 'next/app';
+import '../styles/globals.css';
+import { Inter } from '@next/font/google';
 
-function HiringApp({
+const inter = Inter({ subsets: ['latin'] });
+
+const HiringApp = ({
   Component,
   pageProps,
 }: AppProps<{
   initialSession: Session;
-}>) {
+}>) => {
   // Create a new supabase client for each page load
   const [supabase] = useState(() => createBrowserSupabaseClient());
 
@@ -20,8 +22,10 @@ function HiringApp({
       supabaseClient={supabase}
       initialSession={pageProps.initialSession}
     >
-      <Component {...pageProps} />
+      <div className={inter.className}>
+        <Component {...pageProps} />
+      </div>
     </SessionContextProvider>
   );
-}
+};
 export default HiringApp;
